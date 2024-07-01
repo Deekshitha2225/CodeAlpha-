@@ -1,0 +1,124 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class TravelItineraryPlanner {
+
+    private String startDate;
+    private String endDate;
+    private String transportation;
+    private String accommodation;
+    private ArrayList<String> destinations;
+
+    // Parameterized constructor
+    public TravelItineraryPlanner(ArrayList<String> destinations, String startDate, String endDate,
+                                  String transportation, String accommodation) {
+        this.destinations = destinations;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.transportation = transportation;
+        this.accommodation = accommodation;
+    }
+
+    // Getters
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public String getTransportation() {
+        return transportation;
+    }
+
+    public String getAccommodation() {
+        return accommodation;
+    }
+
+    public ArrayList<String> getDestinations() {
+        return destinations;
+    }
+
+    // Static methods for travel planning
+    public static void getMap(String destination) {
+        System.out.println("Generating best route map for your destination " + destination + " .....");
+    }
+
+    public static void getWeather(String destination) {
+        System.out.println("Getting weather details from your destination " + destination + " .....");
+    }
+
+    public static void getBudget(String destination) {
+        System.out.println("Generating best budget for your destination " + destination + " .....");
+    }
+
+    // Method to generate travel plan
+    public void generateTravelPlan() {
+        System.out.println("Generating your Travel Itinerary Planner....\n");
+        for (String destination : destinations) {
+            System.out.println("Destination: " + destination);
+            System.out.println("From: " + startDate + " To: " + endDate);
+            System.out.println("Transportation mode: " + transportation);
+            System.out.println("Accommodation: " + accommodation);
+            getWeather(destination);
+            getMap(destination);
+            getBudget(destination);
+            System.out.println("================\n");
+        }
+    }
+
+    // Method to get destinations from user
+    private static ArrayList<String> getDestinations(Scanner scanner) {
+        ArrayList<String> destinations = new ArrayList<>();
+        System.out.print("Enter the number of destinations: ");
+        int numOfDestinations = scanner.nextInt();
+        scanner.nextLine(); // Consume newline character left by nextInt()
+
+        for (int i = 0; i < numOfDestinations; i++) {
+            System.out.print("Enter destination " + (i + 1) + ": ");
+            String destination = scanner.nextLine();
+            destinations.add(destination);
+        }
+        return destinations;
+    }
+
+    // Method to get date from user
+    private static String getDate(Scanner scanner, String prompt) {
+        System.out.print(prompt);
+        return scanner.next();
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            // Input destinations
+            ArrayList<String> destinations = getDestinations(scanner);
+
+            // Input dates
+            String startDate = getDate(scanner, "Enter start date (DD/MM/YYYY): ");
+            String endDate = getDate(scanner, "Enter end date (DD/MM/YYYY): ");
+
+            // Input transportation and accommodation
+            System.out.print("Enter preferred mode of transportation: ");
+            String transportation = scanner.next();
+
+            System.out.print("Enter preferred accommodation: ");
+            String accommodation = scanner.next();
+
+            // Create TravelItineraryPlanner object
+            TravelItineraryPlanner itineraryPlanner = new TravelItineraryPlanner(destinations, startDate, endDate,
+                    transportation, accommodation);
+
+            // Generate travel plan
+            System.out.println();
+            itineraryPlanner.generateTravelPlan();
+        } catch (Exception e) {
+            System.out.println("An error occurred. Please check your input and try again.");
+        } finally {
+            scanner.close();
+        }
+    }
+}
